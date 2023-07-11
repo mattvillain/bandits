@@ -1,37 +1,52 @@
 # config.yaml
 
-- experiment_name: 'Basic_Loss'
-  test_size : 0.2
-  batch_size : 1
-  epochs : 1
-  rewards : 'Loss'
-  latency : 1
-  seed_value : 42
-  delete_pics : True
+# - experiment_name: 'Basic_Loss'
+#   test_size : 0.2
+#   batch_size : 1
+#   epochs : 1
+#   rewards : 'Loss'
+#   latency : 1
+#   seed_value : 42
+#   delete_pics : True
+#   rep_number: 5
 
-- experiment_name: 'Basic_Gradients'
-  test_size : 0.2
-  batch_size : 1
-  epochs : 1
-  rewards : 'Loss'
-  latency : 1
-  seed_value : 42
-  delete_pics : True
+# - experiment_name: 'Basic_Gradients'
+#   test_size : 0.2
+#   batch_size : 1
+#   epochs : 1
+#   rewards : 'Gradients'
+#   latency : 1
+#   seed_value : 42
+#   delete_pics : True
+#   rep_number: 5
 
-- experiment_name: 'Long_Loss'
-  test_size : 0.2
-  batch_size : 1
-  epochs : 5
-  rewards : 'Loss'
-  latency : 1
-  seed_value : 42
-  delete_pics : True
+# - experiment_name: 'Long_Loss'
+#   test_size : 0.2
+#   batch_size : 1
+#   epochs : 5
+#   rewards : 'Loss'
+#   latency : 1
+#   seed_value : 42
+#   delete_pics : True
+#   rep_number: 5
 
-- experiment_name: 'Super_Long_Loss'
-  test_size : 0.2
-  batch_size : 30
-  epochs : 100
-  rewards : 'Loss'
-  latency : 100
-  seed_value : 42
-  delete_pics : True
+# - experiment_name: 'Super_Long_Loss'
+#   test_size : 0.2
+#   batch_size : 30
+#   epochs : 100
+#   rewards : 'Loss'
+#   latency : 1
+#   seed_value : 42
+#   delete_pics : True
+#   rep_number: 5
+
+
+# - experiment_name: 'Full_Training'
+#   test_size : 0.2
+#   batch_size : 20
+#   epochs: 5000
+#   rewards : 'Loss'
+#   latency : 10 
+#   seed_value: 42
+#   delete_pics: True
+#   rep_number: 1
