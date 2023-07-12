@@ -87,7 +87,7 @@ def compute_reward_lipschitz(model,reward_values, X_train):
     return lipschitz_c
 
 # Compute the gradients of the network parameters
-class ComputeLossGradientsPlots(tf.keras.callbacks.Callback):
+class RewardPlotter(tf.keras.callbacks.Callback):
     def __init__(self, X_train : np.ndarray, y_train: np.ndarray, latency : int, rewards : str, experiment_name: str): 
     # store the variables in the objects
         self.X_train = X_train
@@ -99,6 +99,7 @@ class ComputeLossGradientsPlots(tf.keras.callbacks.Callback):
     # initialise new variables useful later
         self.lipschitz_store = [] # list meant to store lipschitz constants through training epochs
         self.zlim = 0 
+        self.epoch_counter = 0
 
     def get_gradientsum(self): 
         '''
@@ -122,8 +123,6 @@ class ComputeLossGradientsPlots(tf.keras.callbacks.Callback):
         return np.sum((self.model.predict(self.X_train) - self.y_train)**2, 1)
     
     def on_train_batch_begin(self, epoch, logs=None):
-        
-
         if self.rewards == 'Gradients':
             rewards_values = self.get_gradientsum()
         if self.rewards == 'Loss':
@@ -133,16 +132,18 @@ class ComputeLossGradientsPlots(tf.keras.callbacks.Callback):
         if epoch == 0: 
             self.zlim = max(rewards_values)
         if epoch % self.latency == 0:
-            print('epoch: ', epoch)
             for y in [rewards_values]:  
                 #print('Threeway Combinations')
                 #plot_threeway_combinations(x1,x2,x3,x4,y)
-                title = f'{self.experiment_name} : Epoch {epoch}'
+                title = f'{self.experiment_name} : Epoch {epoch + len(self.X_train) * self.epoch_counter}'
                 plot_pairwise_combinations(x1,x2,x3,x4,y,title, self.zlim)
             self.lipschitz_store+=[compute_reward_lipschitz(self.model, rewards_values, self.X_train)]
-        
     
     def on_epoch_end(self, epoch, logs = None):
+        self.epoch_counter +=1
+        return
+    
+    def on_training(self, epoch, logs = None):
         fig = plt.figure()
         lipc = np.array(self.lipschitz_store)
         plt.plot(np.arange(0,len(lipc)), lipc)
@@ -186,7 +187,7 @@ def run_experiment(config):
     store_loss = np.sum((model.predict(X_train) - y_train)**2, 1)
 
     # Train the model
-    callback = ComputeLossGradientsPlots(X_train, y_train, config['latency'], config['rewards'], config['experiment_name'])
+    callback = RewardPlotter(X_train, y_train, config['latency'], config['rewards'], config['experiment_name'])
     model.fit(X_train, y_train, epochs = config['epochs'], batch_size= config['batch_size'], verbose=1, callbacks=[callback])
     store_loss = np.sum((model.predict(X_train) - y_train)**2, 1)
     # Evaluate the model
@@ -201,10 +202,14 @@ def load_config(file_path):
     return config
 
 if __name__ =='__main__': 
+    try: 
+        os.mkdir('Lipschitz')
+    except FileExistsError: 
+        pass
     experiments = load_config('config.yaml')
     for config in experiments: 
         config['experiment_name'] = config['experiment_name'] + '0'
-        for i in range(5):
+        for i in range(config['rep_number']):
             config['experiment_name'] = config['experiment_name'][:-1] + f'{i}' 
             run_experiment(config)
             all_pics_to_a_gif(config['experiment_name'], delete = config['delete_pics'])
