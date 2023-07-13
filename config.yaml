@@ -9,6 +9,7 @@
 #   seed_value : 42
 #   delete_pics : True
 #   rep_number: 5
+#   optimizer : 'sgd'
 
 # - experiment_name: 'Basic_Gradients'
 #   test_size : 0.2
@@ -19,6 +20,7 @@
 #   seed_value : 42
 #   delete_pics : True
 #   rep_number: 5
+#   optimizer : 'sgd'
 
 # - experiment_name: 'Long_Loss'
 #   test_size : 0.2
@@ -29,6 +31,7 @@
 #   seed_value : 42
 #   delete_pics : True
 #   rep_number: 5
+#   optimizer : 'sgd'
 
 # - experiment_name: 'Super_Long_Loss'
 #   test_size : 0.2
@@ -39,14 +42,16 @@
 #   seed_value : 42
 #   delete_pics : True
 #   rep_number: 5
+#   optimizer : 'sgd'
 
 
 # - experiment_name: 'Full_Training'
 #   test_size : 0.2
-#   batch_size : 20
-#   epochs: 5000
+#   batch_size : 40
+#   epochs: 1000
 #   rewards : 'Loss'
-#   latency : 10 
+#   latency : 1000 
 #   seed_value: 42
 #   delete_pics: True
 #   rep_number: 1
+#   optimiser: 'adam'

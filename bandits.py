@@ -183,7 +183,7 @@ def run_experiment(config):
     ])
 
     # mode compile
-    model.compile(optimizer='sgd', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=config['optimiser'], loss='categorical_crossentropy', metrics=['accuracy'])
     store_loss = np.sum((model.predict(X_train) - y_train)**2, 1)
 
     # Train the model
